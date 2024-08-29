@@ -1,8 +1,7 @@
-package com.example.se331.rest.entity;
+package se331.lab.rest.entity;
 
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.beans.propertyeditors.StringArrayPropertyEditor;
 
 @Data
 @Builder

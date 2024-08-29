@@ -1,4 +1,4 @@
-package com.example.se331;
+package se331.lab;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
