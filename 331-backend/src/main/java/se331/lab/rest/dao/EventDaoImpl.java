@@ -1,8 +1,8 @@
 package se331.lab.rest.dao;
 
-import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Repository;
 import se331.lab.rest.entity.Event;
+import jakarta.annotation.PostConstruct;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,30 +112,30 @@ public class EventDaoImpl implements EventDao {
                 .organizer("Brody Kill")
                 .build());
     }
+
     @Override
     public Integer getEventSize() {
         return eventList.size();
     }
+
     @Override
     public List<Event> getEvents(Integer pageSize, Integer page) {
         pageSize = pageSize == null ? eventList.size() : pageSize;
         page = page == null ? 1 : page;
-        Integer firstIndex = (page - 1) * pageSize;
-        List<Event> output = new ArrayList<>();
-        for (int i = firstIndex; i < firstIndex + pageSize && i < eventList.size(); i++) {
-            output.add(eventList.get(i));
-        }
-        return output;
+        int firstIndex = (page - 1) * pageSize;
+        return eventList.subList(firstIndex, Math.min(firstIndex + pageSize, eventList.size()));
     }
+
     @Override
     public Event getEventById(Long id) {
-        Event output = null;
-        for (Event event : eventList) {
-            if (event.getId().equals(id)) {
-                output = event;
-                break;
-            }
-        }
-        return output;
+        return null;
+    }
+
+    @Override
+    public Event getEvent(Long id) {
+        return eventList.stream()
+                .filter(event -> event.getId().equals(id))
+                .findFirst()
+                .orElse(null);
     }
 }

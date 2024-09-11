@@ -8,4 +8,6 @@ public interface EventDao {
     Integer getEventSize();
     List<Event> getEvents(Integer pageSize, Integer page);
     Event getEventById(Long id);
+
+    Event getEvent(Long id);
 }
