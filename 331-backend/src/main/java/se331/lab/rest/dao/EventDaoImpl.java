@@ -6,6 +6,7 @@ import jakarta.annotation.PostConstruct;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class EventDaoImpl implements EventDao {
@@ -124,11 +125,6 @@ public class EventDaoImpl implements EventDao {
         page = page == null ? 1 : page;
         int firstIndex = (page - 1) * pageSize;
         return eventList.subList(firstIndex, Math.min(firstIndex + pageSize, eventList.size()));
-    }
-
-    @Override
-    public Event getEventById(Long id) {
-        return null;
     }
 
     @Override
