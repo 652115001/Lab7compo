@@ -1,13 +1,15 @@
 package se331.lab.rest.dao;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 import se331.lab.rest.entity.Event;
-import jakarta.annotation.PostConstruct;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 @Profile("manual")
@@ -17,7 +19,6 @@ public class EventDaoImpl implements EventDao {
     @PostConstruct
     public void init() {
         eventList = new ArrayList<>();
-
         eventList.add(Event.builder()
                 .id(123L)
                 .category("animal welfare")
@@ -115,25 +116,28 @@ public class EventDaoImpl implements EventDao {
                 .organizer("Brody Kill")
                 .build());
     }
-
     @Override
     public Integer getEventSize() {
         return eventList.size();
     }
 
     @Override
-    public List<Event> getEvents(Integer pageSize, Integer page) {
+    public Page<Event> getEvents(Integer pageSize, Integer page) {
         pageSize = pageSize == null ? eventList.size() : pageSize;
         page = page == null ? 1 : page;
         int firstIndex = (page - 1) * pageSize;
-        return eventList.subList(firstIndex, Math.min(firstIndex + pageSize, eventList.size()));
+        return new PageImpl<Event>(eventList.subList(firstIndex, firstIndex + pageSize), PageRequest.of(page,pageSize),eventList.size());
     }
 
     @Override
-    public Event getEvent(Long id) {
-        return eventList.stream()
-                .filter(event -> event.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+    public Event getEventById(Long id) {
+        return eventList.stream().filter(e -> e.getId().equals(id)).findFirst().orElse(null);
+    }
+
+    @Override
+    public Event saveEvent(Event event) {
+        event.setId(eventList.get(eventList.size() - 1).getId() + 1);
+        eventList.add(event);
+        return event;
     }
 }
