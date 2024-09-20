@@ -7,6 +7,8 @@ import jakarta.persistence.Id;
 import lombok.*;
 import org.springframework.beans.propertyeditors.StringArrayPropertyEditor;
 
+import java.util.List;
+
 @Data
 @Builder
 @Entity
@@ -24,5 +26,6 @@ public class Event {
     String date;
     String time;
     Boolean petsAllowed;
-    String organizer;
+    Organizer organizer;
+    List<Participant> participant;
 }
